@@ -71,6 +71,7 @@ namespace modules {
     static constexpr const char* TAG_ANIMATION_DISCHARGING{"<animation-discharging>"};
     static constexpr const char* TAG_BAR_CAPACITY{"<bar-capacity>"};
     static constexpr const char* TAG_RAMP_CAPACITY{"<ramp-capacity>"};
+    static constexpr const char* TAG_RAMP_CAPACITY_CHARGING{"<ramp-capacity-charging>"};
     static constexpr const char* TAG_LABEL_CHARGING{"<label-charging>"};
     static constexpr const char* TAG_LABEL_DISCHARGING{"<label-discharging>"};
     static constexpr const char* TAG_LABEL_FULL{"<label-full>"};
@@ -89,6 +90,7 @@ namespace modules {
     animation_t m_animation_discharging;
     progressbar_t m_bar_capacity;
     ramp_t m_ramp_capacity;
+    ramp_t m_ramp_capacity_charging;
 
     string m_fstate;
     string m_fcapnow;

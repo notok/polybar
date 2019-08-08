@@ -113,10 +113,12 @@ namespace modules {
 
     // Add formats and elements
     m_formatter->add(FORMAT_CHARGING, TAG_LABEL_CHARGING,
-        {TAG_BAR_CAPACITY, TAG_RAMP_CAPACITY, TAG_ANIMATION_CHARGING, TAG_LABEL_CHARGING});
+        {TAG_BAR_CAPACITY, TAG_RAMP_CAPACITY, TAG_RAMP_CAPACITY_CHARGING,
+       	    TAG_ANIMATION_CHARGING, TAG_LABEL_CHARGING});
     m_formatter->add(FORMAT_DISCHARGING, TAG_LABEL_DISCHARGING,
         {TAG_BAR_CAPACITY, TAG_RAMP_CAPACITY, TAG_ANIMATION_DISCHARGING, TAG_LABEL_DISCHARGING});
-    m_formatter->add(FORMAT_FULL, TAG_LABEL_FULL, {TAG_BAR_CAPACITY, TAG_RAMP_CAPACITY, TAG_LABEL_FULL});
+    m_formatter->add(FORMAT_FULL, TAG_LABEL_FULL,
+        {TAG_BAR_CAPACITY, TAG_RAMP_CAPACITY, TAG_RAMP_CAPACITY_CHARGING, TAG_LABEL_FULL});
 
     if (m_formatter->has(TAG_ANIMATION_CHARGING, FORMAT_CHARGING)) {
       m_animation_charging = load_animation(m_conf, name(), TAG_ANIMATION_CHARGING);
@@ -129,6 +131,9 @@ namespace modules {
     }
     if (m_formatter->has(TAG_RAMP_CAPACITY)) {
       m_ramp_capacity = load_ramp(m_conf, name(), TAG_RAMP_CAPACITY);
+    }
+    if (m_formatter->has(TAG_RAMP_CAPACITY_CHARGING)) {
+      m_ramp_capacity_charging = load_ramp(m_conf, name(), TAG_RAMP_CAPACITY_CHARGING);
     }
     if (m_formatter->has(TAG_LABEL_CHARGING, FORMAT_CHARGING)) {
       m_label_charging = load_optional_label(m_conf, name(), TAG_LABEL_CHARGING, "%percentage%%");
@@ -266,6 +271,8 @@ namespace modules {
       builder->node(m_bar_capacity->output(clamp_percentage(m_percentage, m_state)));
     } else if (tag == TAG_RAMP_CAPACITY) {
       builder->node(m_ramp_capacity->get_by_percentage(clamp_percentage(m_percentage, m_state)));
+    } else if (tag == TAG_RAMP_CAPACITY_CHARGING) {
+      builder->node(m_ramp_capacity_charging->get_by_percentage(clamp_percentage(m_percentage, m_state)));
     } else if (tag == TAG_LABEL_CHARGING) {
       builder->node(m_label_charging);
     } else if (tag == TAG_LABEL_DISCHARGING) {
